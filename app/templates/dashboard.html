@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="d-flex justify-content-between mb-3">
+    <a href="{{ url_for('task.add_task') }}" class="btn btn-primary">
+         Add Task
+    </a>
+
+    <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">
+        Logout
+    </a>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover table-striped align-middle text-center">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Toggle</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+
+                    <td>{{ loop.index }}</td>
+
+                    <td class="fw-bold">{{ task.title }}</td>
+
+                    <td>
+                        {% if task.priority == "High" %}
+                            <span class="badge bg-danger">High</span>
+                        {% elif task.priority == "Medium" %}
+                            <span class="badge bg-warning text-dark">Medium</span>
+                        {% else %}
+                            <span class="badge bg-success">Low</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if task.status == "Done" %}
+                            <span class="badge bg-success">Done</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Pending</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="{{ url_for('task.update_task', id=task.id) }}"
+                           class="btn btn-sm btn-outline-primary">
+                           Toggle
+                        </a>
+                     </td>
+                     <td>
+                        <a href="{{ url_for('task.delete_task', id=task.id) }}"
+                           class="btn btn-sm btn-outline-danger">
+                           Delete
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}
